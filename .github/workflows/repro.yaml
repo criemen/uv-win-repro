@@ -1,0 +1,19 @@
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+      - name: Install uv
+        uses: astral-sh/setup-uv@856099c958e7f2d5560824c4068f415104f5e436
+        with:
+          enable-cache: "false"
+          version: 0.5.9
+      - name: Run pytest
+        shell: bash
+        run: |
+          uv run --locked pytest --version
